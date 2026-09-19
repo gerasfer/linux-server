@@ -21,19 +21,19 @@ control, from OS install to hardening to monitoring.
 ## Current setup
 Fresh Ubuntu install
 
-│
+
 ▼
 SSH hardening key-only auth, no root login, custom port
 
-│
+
 ▼
 fail2ban bans repeated failed SSH attempts
 
-│
+
 ▼
 Docker data-root moved to /home (see below)
 
-│
+
 ▼
 Uptime Kuma uptime checks + Telegram alerts on downtime
 

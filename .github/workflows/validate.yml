@@ -11,3 +11,6 @@ jobs:
 
       - name: Validate docker-compose.yml
         run: docker compose config
+
+      - name: Validate prometheus.yml
+        run: docker run --rm -v $PWD/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus:latest promtool check config /etc/prometheus/prometheus.yml

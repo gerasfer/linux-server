@@ -13,4 +13,4 @@ jobs:
         run: docker compose config
 
       - name: Validate prometheus.yml
-        run: docker run --rm -v $PWD/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus:latest promtool check config /etc/prometheus/prometheus.yml
+        run: docker run --rm --entrypoint=promtool -v $PWD/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus:latest check config /etc/prometheus/prometheus.yml

@@ -4,6 +4,14 @@ A small home server (an old laptop repurposed as a Linux box), manually
 configured and hardened, running Docker-based services with uptime
 monitoring and alerting.
 
+## How to run
+
+```bash
+docker compose up -d
+```
+
+Grafana available at `localhost:3000`, Prometheus at `localhost:9080`, cAdvisor at `localhost:8080`.
+
 ## Why this exists
 
 Wanted to build hands-on infrastructure/networking skills beyond what I
@@ -12,18 +20,33 @@ control, from OS install to hardening to monitoring.
 
 ## Current setup
 Fresh Ubuntu install
-│
+
+
 ▼
 SSH hardening key-only auth, no root login, custom port
-│
+
+
 ▼
 fail2ban bans repeated failed SSH attempts
-│
+
+
 ▼
 Docker data-root moved to /home (see below)
-│
+
+
 ▼
 Uptime Kuma uptime checks + Telegram alerts on downtime
+
+## Monitoring stack
+
+In addition to Uptime Kuma (up/down checks), the server runs a full metrics stack via `docker-compose.yml`:
+
+- **node-exporter** — host-level metrics (CPU, memory, disk, network)
+- **cAdvisor** — per-container resource usage
+- **Prometheus** — scrapes and stores metrics from both exporters
+- **Grafana** — dashboards for visualizing everything above
+
+Config: [`docker-compose.yml`](./docker-compose.yml), [`prometheus.yml`](./prometheus.yml)
 
 ## Key design decisions
 
@@ -45,11 +68,12 @@ Uptime Kuma uptime checks + Telegram alerts on downtime
 - Docker administration (custom data-root, container lifecycle)
 - Monitoring & alerting (Uptime Kuma + Telegram)
 - Practical troubleshooting on real (not cloud, not tutorial) hardware
+- Metrics collection & visualization (Prometheus, Grafana, cAdvisor)
 
 ## Roadmap
 
 - [ ] Automate this setup with Ansible (currently done manually — next
       step is turning it into a reproducible playbook)
-- [ ] Prometheus + Grafana for resource metrics, not just up/down checks
+- [✓] Prometheus + Grafana for resource metrics, not just up/down checks
 - [ ] Reverse proxy (Nginx/Traefik) with HTTPS in front of dashboards
 - [ ] Automated off-box backups
